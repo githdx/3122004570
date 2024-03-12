@@ -60,17 +60,24 @@ public class Calculation {
 
     //合并
     public static int[] merged(int[][] list){
-        int length=list.length;
-        int[] weightVectorList=new int[length];
-        int i=0;
-        System.out.println(list.length);
-        for(int[] arr:list){
+        int[] weightVectorList=new int[256];
+        for (int[] ints : list) {
             //System.out.println(arr.length);
-            for(int j=0;j<256;j++){
-                weightVectorList[i]+=arr[j];
+            for (int j = 0; j < 256; j++) {
+                weightVectorList[j] += ints[j];
             }
-            i++;
         }
         return weightVectorList;
+    }
+
+    //计算海明距离
+    public static int calculateHammingDistance(int[] list1,int[] list2){
+        int distance=0;
+        System.out.println(list1.length);
+        for(int i=0;i<list1.length;i++){
+            if(list1[i]!=list2[i])distance++;
+        }
+        System.out.println(distance);
+        return distance;
     }
 }
