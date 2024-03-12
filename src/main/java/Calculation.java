@@ -8,13 +8,26 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Calculation {
+    public static int[] getSiHash(String txt){
+        //1.分词
+        List<String> featureWordList= participle(txt);
+        //2.hash
+        List<String> hashList= Hash(featureWordList);
+        //3.加权
+        int [][]originList= weighted(hashList);
+        //4.合并
+        int []weightVectorList=merged(originList);
+        //5.降维
+        dimensionalityReduction(weightVectorList);
+        return weightVectorList;
+    }
     //分词
-    public static List<String> participle(String txt){
+    private static List<String> participle(String txt){
         return HanLP.extractKeyword(txt, txt.length());
     }
 
     //hash
-    public static List<String> Hash(List<String> list){
+    private static List<String> Hash(List<String> list){
         List<String> hashList = new ArrayList<>();
         //将字符串数组的每个字符串转成256位的hash值
         for(String str:list){
@@ -34,7 +47,7 @@ public class Calculation {
     }
 
     //降维
-    public static void dimensionalityReduction(int[] weightVectorList){
+    private static void dimensionalityReduction(int[] weightVectorList){
         //权重值大于0则为1，反之为0
         for(int i=0;i<weightVectorList.length;i++){
             weightVectorList[i]=weightVectorList[i]>0?1:0;
@@ -42,7 +55,7 @@ public class Calculation {
     }
 
     //加权
-    public static int[][] weighted(List<String> hashList){
+    private static int[][] weighted(List<String> hashList){
         int size= hashList.size();
         int[][] weightVectorList=new int[size][256];
         for(int i=0;i<size;i++) {
@@ -59,7 +72,7 @@ public class Calculation {
     }
 
     //合并
-    public static int[] merged(int[][] list){
+    private static int[] merged(int[][] list){
         int[] weightVectorList=new int[256];
         for (int[] ints : list) {
             //System.out.println(arr.length);
@@ -79,5 +92,10 @@ public class Calculation {
         }
         System.out.println(distance);
         return distance;
+    }
+
+    //计算论文相似度
+    public static double calculateHammingSimilarity(int distance){
+        return Math.round( (100-100.0*distance/256)* 100) / 100.0;
     }
 }
