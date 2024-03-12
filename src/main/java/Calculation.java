@@ -13,14 +13,29 @@ public class Calculation {
         List<String> featureWordList= participle(txt);
         //2.hash
         List<String> hashList= Hash(featureWordList);
-        //3.加权
-        int [][]originList= weighted(hashList);
-        //4.合并
-        int []weightVectorList=merged(originList);
-        //5.降维
+        //3.加权、合并
+        int []weightVectorList=weightedAndMerged(hashList);
+        //4.降维
         dimensionalityReduction(weightVectorList);
         return weightVectorList;
     }
+
+    //计算海明距离
+    public static int calculateHammingDistance(int[] list1,int[] list2){
+        int distance=0;
+        System.out.println(list1.length);
+        for(int i=0;i<list1.length;i++){
+            if(list1[i]!=list2[i])distance++;
+        }
+        System.out.println(distance);
+        return distance;
+    }
+
+    //计算论文相似度
+    public static double calculateHammingSimilarity(int distance){
+        return Math.round( (100-100.0*distance/256)* 100) / 100.0;
+    }
+
     //分词
     private static List<String> participle(String txt){
         return HanLP.extractKeyword(txt, txt.length());
@@ -54,48 +69,21 @@ public class Calculation {
         }
     }
 
-    //加权
-    private static int[][] weighted(List<String> hashList){
+    //加权、合并
+    private static int[] weightedAndMerged(List<String> hashList){
         int size= hashList.size();
-        int[][] weightVectorList=new int[size][256];
+        //256位的加权向量
+        int[] weightVectorList=new int[256];
         for(int i=0;i<size;i++) {
             String str = hashList.get(i);
             for (int j = 0; j < str.length(); j++) {
                 //权重范围0-10，特征词在数组中位置越靠前权重越大
                 int weight = 10 - 10 * i / size;
-                //加权
-                if (str.charAt(j) == '1') weightVectorList[i][j] = weight;
-                else weightVectorList[i][j] = -weight;
+                //加权并合并
+                if (str.charAt(j) == '1') weightVectorList[j] += weight;
+                else weightVectorList[j] -= weight;
             }
         }
         return weightVectorList;
-    }
-
-    //合并
-    private static int[] merged(int[][] list){
-        int[] weightVectorList=new int[256];
-        for (int[] ints : list) {
-            //System.out.println(arr.length);
-            for (int j = 0; j < 256; j++) {
-                weightVectorList[j] += ints[j];
-            }
-        }
-        return weightVectorList;
-    }
-
-    //计算海明距离
-    public static int calculateHammingDistance(int[] list1,int[] list2){
-        int distance=0;
-        System.out.println(list1.length);
-        for(int i=0;i<list1.length;i++){
-            if(list1[i]!=list2[i])distance++;
-        }
-        System.out.println(distance);
-        return distance;
-    }
-
-    //计算论文相似度
-    public static double calculateHammingSimilarity(int distance){
-        return Math.round( (100-100.0*distance/256)* 100) / 100.0;
     }
 }
