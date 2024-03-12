@@ -6,12 +6,18 @@ import java.util.List;
 public class TxtHandle {
     //txt文本读取
     public static String txtRead(String path){
-        List<String> paragraph = FileUtil.readUtf8Lines(path);
-        StringBuilder str= new StringBuilder();
-        for(String string:paragraph){
-            str.append(string);
+        //文件打开失败错误提示
+        try{
+            List<String> paragraph = FileUtil.readUtf8Lines(path);
+            StringBuilder str= new StringBuilder();
+            for(String string:paragraph){
+                str.append(string);
+            }
+            return str.toString();
+        }catch(Exception e){
+            System.out.println("文件打开失败，请重新选择文件！");
+            return null;
         }
-        return str.toString();
     }
 
     //txt文本写入

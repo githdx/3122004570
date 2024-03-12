@@ -8,7 +8,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Calculation {
-    public static int[] getSiHash(String txt){
+    //获取文本的SimHash值
+    public static int[] getSimHash(String txt){
+        // 文本长度过短时，结果准确度过低，文本过短错误提示
+        if(txt.length()<500) {
+            System.out.println("文本过短，请重新选择！");
+            return null;
+        }
         //1.分词
         List<String> featureWordList= participle(txt);
         //2.hash
