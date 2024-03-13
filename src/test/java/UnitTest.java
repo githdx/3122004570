@@ -38,13 +38,13 @@ public class UnitTest {
     }
 
     public static void test(String path1,String path2,String path3){
-        String txt1=TxtHandle.txtRead(path1);
-        String txt2=TxtHandle.txtRead(path2);
-        if(txt1==null||txt2==null)return;
+        String txt1,txt2;
+        //文件打开失败，结束
+        if((txt1=TxtHandle.txtRead(path1))==null||(txt2=TxtHandle.txtRead(path2))==null)return;
         //获取txt文本的SimHash值
-        int[] weightVectorList1= Calculation.getSimHash(txt1);
-        int[] weightVectorList2= Calculation.getSimHash(txt2);
-        if(weightVectorList1==null||weightVectorList2==null)return ;
+        int[] weightVectorList1,weightVectorList2;
+        //文本内容过短，结束
+        if((weightVectorList1=Calculation.getSimHash(txt1))==null||(weightVectorList2=Calculation.getSimHash(txt2))==null)return ;
         //计算海明距离
         int distance= Calculation.calculateHammingDistance(weightVectorList1,weightVectorList2);
         //计算论文相似度

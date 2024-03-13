@@ -1,5 +1,6 @@
 import com.hankcs.hanlp.HanLP;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -36,6 +37,7 @@ public class Calculation {
 
     //计算论文相似度
     public static double calculateHammingSimilarity(int distance){
+        //保留两位小数
         return Math.round( (100-100.0*distance/256)* 100) / 100.0;
     }
 
