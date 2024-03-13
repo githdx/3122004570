@@ -1,5 +1,10 @@
 public class CheckMain {
     public static void main(String[] args) {
+        //输入不是三个文件时，错误提示
+        if(args.length!=3){
+            System.out.println("请规范输入三个文本路径！");
+            return;
+        }
         //1.读取txt文件
         String originTxt,copyTxt;
         if((originTxt=TxtHandle.txtRead(args[0]))==null||(copyTxt=TxtHandle.txtRead(args[1]))==null)return;

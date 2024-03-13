@@ -1,6 +1,5 @@
 import com.hankcs.hanlp.HanLP;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
