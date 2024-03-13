@@ -4,7 +4,6 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Calculation {
@@ -29,11 +28,9 @@ public class Calculation {
     //计算海明距离
     public static int calculateHammingDistance(int[] list1,int[] list2){
         int distance=0;
-        System.out.println(list1.length);
         for(int i=0;i<list1.length;i++){
             if(list1[i]!=list2[i])distance++;
         }
-        System.out.println(distance);
         return distance;
     }
 
